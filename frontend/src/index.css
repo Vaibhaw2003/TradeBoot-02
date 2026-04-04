@@ -1,0 +1,203 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --color-brand: #00f5c8;
+    --color-brand-dim: rgba(0, 245, 200, 0.1);
+    --color-surface: #0d1520;
+    --color-surface-2: #111a27;
+    --color-surface-3: #162030;
+    --color-border: rgba(255, 255, 255, 0.06);
+    --color-border-brand: rgba(0, 245, 200, 0.2);
+    --scrollbar-width: 6px;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: #080d14;
+    font-family: 'Outfit', sans-serif;
+  }
+
+  /* Custom scrollbar */
+  ::-webkit-scrollbar {
+    width: var(--scrollbar-width);
+    height: var(--scrollbar-width);
+  }
+  ::-webkit-scrollbar-track {
+    background: #0d1520;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgba(0, 245, 200, 0.2);
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(0, 245, 200, 0.4);
+  }
+
+  * {
+    box-sizing: border-box;
+  }
+}
+
+@layer components {
+  .glass {
+    background: rgba(13, 21, 32, 0.7);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.06);
+  }
+
+  .glass-brand {
+    background: rgba(0, 245, 200, 0.03);
+    backdrop-filter: blur(12px);
+    border: 1px solid rgba(0, 245, 200, 0.15);
+  }
+
+  .btn-primary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium text-sm
+    bg-brand-400 text-slate-900 hover:bg-brand-300 active:scale-95
+    transition-all duration-200 shadow-glow-sm hover:shadow-glow;
+  }
+
+  .btn-secondary {
+    @apply inline-flex items-center gap-2 px-5 py-2.5 rounded-lg font-medium text-sm
+    bg-transparent border border-brand-400/30 text-brand-300 hover:border-brand-400/60 hover:bg-brand-400/5
+    transition-all duration-200;
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-lg font-medium text-sm
+    text-slate-400 hover:text-slate-100 hover:bg-white/5
+    transition-all duration-200;
+  }
+
+  .input-field {
+    @apply w-full px-4 py-3 rounded-lg text-sm text-slate-100 placeholder-slate-500
+    bg-slate-800/50 border border-slate-700/50 focus:border-brand-400/50 focus:outline-none focus:ring-1 focus:ring-brand-400/20
+    transition-all duration-200;
+  }
+
+  .card {
+    @apply rounded-xl bg-slate-900/60 border border-white/5 shadow-xl;
+  }
+
+  .card-brand {
+    @apply rounded-xl bg-brand-400/[0.03] border border-brand-400/10;
+  }
+
+  .badge {
+    @apply inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium;
+  }
+
+  .badge-green {
+    @apply badge bg-emerald-400/10 text-emerald-400 border border-emerald-400/20;
+  }
+
+  .badge-red {
+    @apply badge bg-red-400/10 text-red-400 border border-red-400/20;
+  }
+
+  .badge-amber {
+    @apply badge bg-amber-400/10 text-amber-400 border border-amber-400/20;
+  }
+
+  .badge-brand {
+    @apply badge bg-brand-400/10 text-brand-300 border border-brand-400/20;
+  }
+
+  .section-heading {
+    @apply font-display font-bold text-3xl md:text-4xl text-white tracking-tight;
+  }
+
+  .section-sub {
+    @apply text-slate-400 text-lg leading-relaxed;
+  }
+
+  .nav-link {
+    @apply text-sm font-medium text-slate-400 hover:text-slate-100 transition-colors duration-150;
+  }
+
+  .sidebar-link {
+    @apply flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium
+    text-slate-400 hover:text-slate-100 hover:bg-white/5
+    transition-all duration-150 group;
+  }
+
+  .sidebar-link.active {
+    @apply bg-brand-400/10 text-brand-300 border border-brand-400/10;
+  }
+
+  .stat-card {
+    @apply card p-5 space-y-1;
+  }
+
+  .price-up {
+    @apply text-emerald-400 font-mono;
+  }
+
+  .price-down {
+    @apply text-red-400 font-mono;
+  }
+
+  .shimmer-line {
+    @apply h-4 rounded bg-slate-800 animate-pulse;
+  }
+
+  .table-row-hover {
+    @apply hover:bg-white/[0.02] transition-colors duration-100;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    @apply bg-gradient-to-r from-brand-300 to-cyan-300 bg-clip-text text-transparent;
+  }
+
+  .text-gradient-gold {
+    @apply bg-gradient-to-r from-amber-400 to-yellow-300 bg-clip-text text-transparent;
+  }
+
+  .border-gradient {
+    border-image: linear-gradient(135deg, rgba(0,245,200,0.3), rgba(0,245,200,0.05)) 1;
+  }
+
+  .noise-overlay::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.03'/%3E%3C/svg%3E");
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
+/* Chart tooltip customization */
+.recharts-tooltip-wrapper .recharts-default-tooltip {
+  background: #0d1520 !important;
+  border: 1px solid rgba(0, 245, 200, 0.15) !important;
+  border-radius: 8px !important;
+  box-shadow: 0 10px 30px rgba(0,0,0,0.4) !important;
+}
+
+/* Animated gradient border */
+@keyframes borderPulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+.border-pulse {
+  animation: borderPulse 2s ease-in-out infinite;
+}
