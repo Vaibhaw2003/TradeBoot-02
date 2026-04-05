@@ -2,31 +2,38 @@ package com.tradeboot.api.service;
 
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
 
-import java.util.logging.Logger;
-
 @Service
 public class EmailService {
 
+    private static final Logger log = LoggerFactory.getLogger(EmailService.class);
+
     private final JavaMailSender mailSender;
-    private static final Logger logger = Logger.getLogger(EmailService.class.getName());
+
+    @Value("${spring.mail.username}")
+    private String senderEmail;
 
     public EmailService(JavaMailSender mailSender) {
         this.mailSender = mailSender;
     }
 
     public void sendOtpEmail(String to, String otp) {
-        // ALWAYS log OTP to the console as a fallback for developers
-        logger.info("====================================");
-        logger.info("DEVELOPMENT OTP FOR " + to + ": " + otp);
-        logger.info("====================================");
+        log.info("====================================");
+        log.info("PREPARING OTP FOR {}: {}", to, otp);
+        log.info("====================================");
 
         try {
+            log.debug("Initializing MimeMessage...");
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true, "UTF-8");
+            
+            helper.setFrom(senderEmail);
             helper.setTo(to);
             helper.setSubject("Your TradeBoot AI Verification Code");
             
@@ -38,10 +45,15 @@ public class EmailService {
                                  "</div>";
             
             helper.setText(htmlContent, true);
+            
+            log.debug("Dispatching email via JavaMailSender...");
             mailSender.send(message);
-            logger.info("OTP email sent successfully to " + to);
+            
+            log.info("OTP email successfully delivered to {}", to);
+        } catch (MessagingException e) {
+            log.error("Failed to construct MimeMessage for OTP email. Error: {}", e.getMessage(), e);
         } catch (Exception e) {
-            logger.warning("Failed to send OTP via email. (Check SMTP configurations in application.properties). OTP is logged above. Error: " + e.getMessage());
+            log.error("Critical failure while sending OTP email to {}. Ensure Gmail App Passwords and SMTP properties are correctly configured. Error: {}", to, e.getMessage(), e);
         }
     }
 }

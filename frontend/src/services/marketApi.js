@@ -12,7 +12,7 @@ export const marketApi = {
   async searchStocks(query = '') {
     try {
       const res = await api.get('/stocks/search', { params: { query } })
-      return res.data
+      return res
     } catch (err) {
       console.warn('[Mock API Fallback] searchStocks')
       return new Promise(resolve => setTimeout(() => {
@@ -31,7 +31,7 @@ export const marketApi = {
   async getPrediction(symbol) {
     try {
       const res = await api.get(`/predict/${symbol}`)
-      return res.data
+      return res
     } catch (err) {
       console.warn(`[Mock API Fallback] getPrediction for ${symbol}`)
       return new Promise((resolve, reject) => setTimeout(() => {
@@ -80,7 +80,7 @@ export const marketApi = {
   async getMarketNews() {
     try {
       const res = await api.get('/news')
-      return res.data
+      return res
     } catch (err) {
       console.warn('[Mock API Fallback] getMarketNews')
       return new Promise(resolve => setTimeout(() => {
@@ -95,7 +95,7 @@ export const marketApi = {
   async getChartData(symbol, days = 30) {
     try {
       const res = await api.get(`/indicators/${symbol}`, { params: { days } })
-      return res.data
+      return res
     } catch (err) {
       console.warn(`[Mock API Fallback] getChartData for ${symbol}`)
       return new Promise(resolve => setTimeout(() => {

@@ -246,7 +246,7 @@ export default function Dashboard() {
                   <SkeletonCard lines={2} />
                 </>
               ) : (
-                news.slice(0, 3).map(item => (
+                (news || []).slice(0, 3).map(item => (
                   <NewsCard key={item.id} news={item} />
                 ))
               )}

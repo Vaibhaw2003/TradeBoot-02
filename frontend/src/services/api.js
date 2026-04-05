@@ -9,7 +9,9 @@ const api = axios.create({
 // Request interceptor – attach token
 api.interceptors.request.use((config) => {
   const token = localStorage.getItem('tb_token')
-  if (token) config.headers.Authorization = `Bearer ${token}`
+  if (token && !config.url.includes('/auth/')) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
   return config
 }, (error) => Promise.reject(error))
 
